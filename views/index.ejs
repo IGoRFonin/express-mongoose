@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="form-export">
+        <div>
+            <h2>Export file</h2>
+            <button type="submit">export</button>
+        </div>
+    </form>
+
+    <form id="form-import">
+        <h2>Import file</h2>
+        <input id="form-import-file" type="file" accept="text/xml">
+        <button type="submit">import</button>
+    </form>
+
+    <script>
+        const exporForm = document.getElementById('form-export');
+        const exporImport = document.getElementById('form-import');
+        const file = document.getElementById('form-import-file');
+
+        exporForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            axios
+                .get('/test1')
+                .then(function (res) {
+                    console.log(res);
+                })
+        });
+
+        exporImport.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (file.files.length === 0) {
+                return;
+            }
+            
+            const xml = file.files[0];
+            
+            const formData = new FormData();
+            formData.append('file', xml);
+
+            axios
+                .post('/test', formData)
+                .then(function (res) {
+                    console.log(res);
+                })
+        });
+
+    </script>
+</body>
+
+</html>
